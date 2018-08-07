@@ -21,10 +21,15 @@ const ratings = r =>
         .join(' ')}${c.x}`
     : '';
 
-const genres = g =>
-  g.length
+const genres = g => {
+  return g.length
+    ? `${c.nx}${c.p} ${g}${c.x}`
+    : '';
+
+  return g.length
     ? `${c.nx}${c.p} ${g.split(',').shift().trim()}${c.x}`
     : '';
+}
 
 const parse = i => {
   const title = i.Title;

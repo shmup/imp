@@ -1,7 +1,7 @@
-global.config = require('../config.js')
+global.config = require('../config.js');
 
 const irc = require('irc');
-const {search} = require('./utils/omdb.js');
+const {search, random} = require('./utils/omdb.js');
 const {parse} = require('./utils/parser.js');
 const gitinfo = require('./utils/gitinfo.js');
 
@@ -12,31 +12,50 @@ const client = new irc.Client('irc.slashnet.org', nick, {
   channels: chans,
   sasl: false,
   userName: nick,
-  password: pass
+  password: pass,
 });
+
+const randomChat = (req, to, from) => {
+  req.then(info => {
+    console.log(info);
+
+    if (info.Response === 'False') {
+      randomChat(random(), to, from);
+    } else {
+      client.say(to, `${parse(info)}`);
+    }
+  }).catch(err => {
+    console.log('fuck!', err);
+  });
+}
+
+const searchChat = (req, to, from) => {
+  req.then(info => {
+    console.log(info);
+
+    if (info.Response === 'False') {
+      client.say(to, `${from}, ${info.Error.toLowerCase()}`);
+    } else {
+      client.say(to, `${parse(info)}`);
+    }
+  }).catch(err => {
+    client.say(to, `fuck!`);
+  });
+}
 
 // CHATTER
 client.addListener('message', (from, to, message) => {
-  const parts = message.split(' ');
+  const parts = message.trim().split(' ');
   const head = parts.shift();
   const acceptable = ['', ',', ':'].map(thing => `${nick}${thing}`);
 
   if (acceptable.indexOf(head) === -1) return;
 
-  search(parts)
-    .then(info => {
-      console.log(info);
-
-      if (info.Response === 'False') {
-        return client.say(to, `${from}, ${info.Error.toLowerCase()}`);
-      }
-
-      return client.say(to, `${parse(info)}`);
-    })
-    .catch(err => {
-      console.log(err);
-      client.say(to, `fuck!`);
-    });
+  if (!parts.length) {
+    randomChat(random(), to, from);
+  } else {
+    searchChat(search(parts), to, from);
+  }
 
   console.log(`INFO: ${from + ' => ' + to + ': ' + message}`);
 });
