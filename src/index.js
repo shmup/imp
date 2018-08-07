@@ -51,7 +51,7 @@ client.addListener('message', (from, to, message) => {
 
   if (acceptable.indexOf(head) === -1) return;
 
-  if (!parts.length) {
+  if (!parts.length || parts[0].trim() === '?') {
     randomChat(random(), to, from);
   } else {
     searchChat(search(parts), to, from);
