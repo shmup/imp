@@ -1,0 +1,41 @@
+{
+  "name": "imdb",
+  "version": "1.0.0",
+  "description": "imdb bot",
+  "main": "index.js",
+  "scripts": {
+    "bot": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/shmup/imdb.git"
+  },
+  "keywords": [
+    "imdb",
+    "irc",
+    "bot"
+  ],
+  "author": "Jared Miller",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/shmup/imdb/issues"
+  },
+  "homepage": "https://github.com/shmup/imdb#readme",
+  "devDependencies": {
+    "babel-core": "6",
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-syntax-object-rest-spread": "^6.13.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "webpack": "^4.16.4",
+    "webpack-cli": "^2.1.5",
+    "webpack-dev-server": "^3.1.5"
+  },
+  "dependencies": {
+    "irc": "^0.5.2",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2"
+  }
+}
