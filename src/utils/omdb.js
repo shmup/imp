@@ -1,5 +1,6 @@
 const rp = require('request-promise');
 const {key} = global.config.modules.omdb;
+const {removedArgs, findArgs} = require('./parser.js');
 
 /*
  * TODO random movie title
@@ -42,7 +43,8 @@ const search = (parts) => {
     url: 'http://www.omdbapi.com',
     qs: {
       apikey: key,
-      t: parts.join(' '),
+      t: removedArgs(parts).join(' '),
+      type: findArgs(parts)
     },
     json: true,
   });

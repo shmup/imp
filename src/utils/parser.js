@@ -22,14 +22,33 @@ const ratings = r =>
     : '';
 
 const genres = g => {
-  return g.length
-    ? `${c.nx}${c.p} ${g}${c.x}`
-    : '';
+  return g.length ? `${c.nx}${c.p} ${g}${c.x}` : '';
 
   return g.length
-    ? `${c.nx}${c.p} ${g.split(',').shift().trim()}${c.x}`
+    ? `${c.nx}${c.p} ${g
+        .split(',')
+        .shift()
+        .trim()}${c.x}`
     : '';
-}
+};
+
+var removedArgs = quertyWords => {
+  const availableArgs = ['-movie', '-series', '-episode'];
+
+  return quertyWords.filter(q => {
+    return availableArgs.indexOf(q.trim().toLowerCase()) === -1;
+  });
+};
+
+const findArgs = quertyWords => {
+  const availableArgs = ['-movie', '-series', '-episode'];
+
+  const singleArg = quertyWords
+    .filter(q => availableArgs.includes(q.trim().toLowerCase()))
+    .shift();
+
+  return singleArg ? singleArg.slice(1) : singleArg;
+};
 
 const parse = i => {
   const title = i.Title;
@@ -44,4 +63,4 @@ const parse = i => {
   }${director}${genres(i.Genre)}${ratings(i.Ratings)}${c.x}) ${plot} ${imdb}`;
 };
 
-module.exports = {parse};
+module.exports = {parse, findArgs, removedArgs};
