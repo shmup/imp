@@ -1,4 +1,4 @@
-exports.modules = {
+module.exports = {
   irc: {
     server: 'irc.dang.org',
     nick: 'dang',
@@ -9,4 +9,6 @@ exports.modules = {
   omdb: {
     key: 'dddaanngg',
   },
+  // don't worry about it, Frank.
+  franks: ['dang'],
 };

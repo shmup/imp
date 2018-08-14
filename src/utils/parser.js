@@ -32,7 +32,7 @@ const genres = g => {
     : '';
 };
 
-var removedArgs = quertyWords => {
+const removedArgs = quertyWords => {
   const availableArgs = ['-movie', '-series', '-episode'];
 
   return quertyWords.filter(q => {
@@ -50,11 +50,31 @@ const findArgs = quertyWords => {
   return singleArg ? singleArg.slice(1) : singleArg;
 };
 
-const parse = i => {
+const frank = plot => {
+  const punctuation = plot.charAt(plot.length - 1);
+  // trim punctuation if necessary and then add a Frank
+  return ['.', '!', '?'].includes(plot.charAt(plot.length - 1))
+    ? `${plot.substring(0, plot.length - 1)}, Frank${punctuation}`
+    : `${plot}, Frank.`;
+};
+
+var isDoublehappy = nick => {
+  const {franks} = global.config;
+
+  return (
+    franks.filter(
+      f => nick.length >= f.length && nick.substring(0, f.length) === f
+    ).length > 0
+  );
+};
+
+const parse = (i, from) => {
   const title = i.Title;
   const rating = i.Rated;
   const director = i.Director;
-  const plot = i.Plot;
+  const plot = isDoublehappy(from.toLowerCase())
+    ? frank(i.Plot.trim())
+    : i.Plot;
   const year = i.Year;
   const imdb = i.imdbID ? `https://imdb.com/title/${i.imdbID}` : '';
 

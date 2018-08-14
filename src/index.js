@@ -5,7 +5,7 @@ const {search, random} = require('./utils/omdb.js');
 const {parse} = require('./utils/parser.js');
 const gitinfo = require('./utils/gitinfo.js');
 
-const {server, nick, pass, chans} = global.config.modules.irc;
+const {server, nick, pass, chans} = global.config.irc;
 
 // INIT
 const client = new irc.Client('irc.slashnet.org', nick, {
@@ -22,7 +22,7 @@ const randomChat = (req, to, from) => {
     if (info.Response === 'False') {
       randomChat(random(), to, from);
     } else {
-      client.say(to, `${parse(info)}`);
+      client.say(to, `${parse(info, from)}`);
     }
   }).catch(err => {
     console.log('fuck!', err);
@@ -36,7 +36,7 @@ const searchChat = (req, to, from) => {
     if (info.Response === 'False') {
       client.say(to, `${from}, ${info.Error.toLowerCase()}`);
     } else {
-      client.say(to, `${parse(info)}`);
+      client.say(to, `${parse(info, from)}`);
     }
   }).catch(err => {
     client.say(to, `fuck!`);

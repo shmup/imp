@@ -1,5 +1,5 @@
 const rp = require('request-promise');
-const {key} = global.config.modules.omdb;
+const {key} = global.config.omdb;
 const {removedArgs, findArgs} = require('./parser.js');
 
 /*
